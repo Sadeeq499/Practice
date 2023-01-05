@@ -1,22 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Card from './components/cards';
+// import Card from './components/cards';
+import Counter from './components/counter';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Card 
+    {/* <Card 
     name="SAqi"
     joinDate="2023"
     description="Hello welcome to peshawar"
     friends="7888"
     />
+<Card 
+    name="Kaleem"
+    joinDate="2021"
+    description="network engineer"
+    friends="9"
+    /> */}
 
+<Counter />
 
-
-    
   </React.StrictMode>
 );
 
