@@ -6,35 +6,66 @@ export default class App extends Component {
     super();
     this.state = {
       result:[],
-      days:''
-    }
+      day:'',
+      date:'',
+      time:''
+    }    
+  }
+  async componentDidMount(){
+    const url = "http://api.weatherapi.com/v1/current.json?key=3a3a8f43344e4b1899f132550230801&q=Peshawar";
+    const {data} = await axios.get(url);
+    this.setState({result:data})
+
+    // Day
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var d = new Date();
+    var dayName = days[d.getDay()];
+    this.setState({day:dayName})
+    // Date
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var month = months[d.getMonth()];
+    var date = d.getDate();
+    var year = d.getFullYear();
+    var fullDate = month + ', ' + date + ' ' + year;
+    this.setState({date:fullDate})
+
+    // Time
+    var hours = d.getHours();
+    var minutes = d.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var time = hours + ':' + minutes + ' ' + ampm;
+    this.setState({time:time})
+
   }
   render() {
-    const res = async () => {
-     const url = "https://api.openweathermap.org/data/2.5/weather?q=Peshawar&appid=a11e9cfc34ca03a2f5462443f06f7b41";
-        const {data} = await axios.get(url);
-        this.setState({result:data})
-    }
     return (
-           
       <div>
         <div className="wrapper">
         <div className="widget-container">
           <div className="top-left">
-              <h1 className="city" id="city">{this.state.result.name}</h1>
-        
+            {
+              this.state.result.location && <h1 className="city" id="city">{this.state.result.location.name}</h1>
+            }
             <h2 id="day">{this.state.day}</h2>
-            <h3 id="date">Month, Day Year</h3>
-            <h3 id="time">Time</h3>
+            <h3 id="date">{this.state.date}</h3>
+            <h3 id="time">{this.state.time}</h3>
             <p className="geo" />
           </div>
           <div className="top-right">
             <h1 id="weather-status">Weather / Weather Status</h1>
-            <img className="weather-icon" src="https://myleschuahiock.files.wordpress.com/2016/02/sunny2.png" />
+            {
+              this.state.result.current  &&
+            <img className="weather-icon" src={this.state.result.current.condition.icon} />
+            }
           </div>
           <div className="horizontal-half-divider" />
           <div className="bottom-left">
-            <h1 id="temperature">0</h1>
+            {
+              this.state.result.current && <h1 className="temperature" id="temperature">{this.state.result.current.temp_c}</h1>
+            }
             <h2 id="celsius">°C</h2>
             <h2 id="temp-divider">/</h2>
             <h2 id="fahrenheit">°F</h2>
@@ -45,20 +76,24 @@ export default class App extends Component {
               <p>Wind Speed</p>
               <p>Humidity</p>
               <p>Pressure</p>
-              <p>Sunrise Time</p>
-              <p>Sunset Time</p>
+              <p>Cloud</p>
+              <p>Feels Like</p>
             </div>
             <div className="other-details-values">
-              <p className="windspeed">0 Km/h</p>
-              <p className="humidity">0 %</p>
-              <p className="pressure">0 hPa</p>
-              <p className="sunrise-time">0:00 am</p>
-              <p className="sunset-time">0:00 pm</p>
+              {
+                this.state.result.current &&
+                <div>
+              <p className="windspeed">{this.state.result.current.wind_kph} Km/h</p>
+              <p className="humidity">{this.state.result.current.humidity} %</p>
+              <p className="pressure">{this.state.result.current.pressure_mb} mb</p>
+              <p className="sunrise-time">{this.state.result.current.cloud} FEW</p>
+              <p className="sunset-time">{this.state.result.current.feelslike_c}°C</p>
+              </div>
+            }
             </div>
           </div>
         </div>
-      </div>       
-        <button onClick={res}>Click me</button>
+      </div>      
       </div>
     )
   }
