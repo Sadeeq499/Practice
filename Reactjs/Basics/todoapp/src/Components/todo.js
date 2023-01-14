@@ -47,6 +47,13 @@ export default class todo extends Component {
             })
           }
         </ul>
+
+        {/* reset button */}
+        <button onClick={() =>{
+          this.setState({
+            data:[]
+          })
+        }}>Reset</button>
       </div>
     )
   }
