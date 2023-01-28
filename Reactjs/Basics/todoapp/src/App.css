@@ -1,7 +1,12 @@
 .App {
   text-align: center;
 }
-
+.complete {
+  text-decoration: line-through;
+}
+.incomplete {
+  text-decoration: none;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
