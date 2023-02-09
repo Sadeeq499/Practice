@@ -1,27 +1,21 @@
 // creating a express 
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+
 
 // creating a route
-app.get('/', (req, res) => {
-    res.json({
-        message: 'Welcome to the API',
-        name: 'Sadeeq',
-        age: 25,
-        email: 'sadeeq@gmail.com',
-        phone: '1234567890',
-        address: 'Bangalore',
-        country: 'India',
-        state: 'Karnataka',
-        city: 'Bangalore',
-        pincode: '560001'
+const addToCart = require('./routers/addToCart');
+const showProfile = require('./routers/showProfile');
+const userSignup = require('./routers/signup');
 
-    });
-});
-
-    app.post('/', (req, res) => {
-        res.send('Post request Mr.Sadeeq');});
+// using a route
+app.use('/api/cart', addToCart);
+app.use('/api/profile', showProfile);
+app.use('/api/signup', userSignup);
 
 // creating a server
 app.listen(port, () => {
