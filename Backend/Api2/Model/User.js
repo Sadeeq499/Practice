@@ -26,5 +26,5 @@ const schema = new mangoose.Schema({
     }
 })
 
-module.exports = mangoose.model('User', schema);   // importrant part of mangoose to create a model and export
-// on the basis of cr
+module.exports = mangoose.model('User', schema);   // important part of mangoose to create a model and export
+// on the basis of mangoose
