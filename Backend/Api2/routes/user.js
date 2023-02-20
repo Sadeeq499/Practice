@@ -1,11 +1,14 @@
+// libraries or other filer imported
 const userRoute = require('express').Router();
 const {registerValidation} = require('./validation')
 const User = require('../Model/User');
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const verifyToken = require('./verfiyToken');
 
 // user route with empty register
-userRoute.get('/register', (req, res) => {
-    res.send('Hello World!');
+userRoute.get('/register',verifyToken, (req, res) => {
+    res.send('Token Verified');
 });
 
 userRoute.post('/register',async (req, res) => {
@@ -41,7 +44,7 @@ userRoute.post('/register',async (req, res) => {
 
 
 userRoute.patch('/register', (req, res) => {
-    res.send('Hello World!');
+    res.send('Hello World! welcome dude it is working ');
 }   );
 
 
@@ -57,8 +60,22 @@ userRoute.get('/login', (req, res) => {
 });
 
 
-userRoute.post('/login', (req, res) => {
-    res.send('Hello World!');
+userRoute.post('/login',async (req, res) => {
+    const {email,password} = req.body;
+
+    const emailIdentity = await User.findOne({email:email})
+    if(!emailIdentity)  return res.status(400).send("email is incorrect");
+    
+    // we have stored the password in encoded type now for that validity we use compare function
+    const compare = await bcrypt.compare(password, emailIdentity.password);
+    if(!compare) return res.status(400).send("password is incorrect");
+
+    // we use usually do id base token sign because it's a primary key 
+    const  token = jwt.sign({email: emailIdentity.email}, process.env.token_secret);
+    // res.send(token);
+    res.header("auth-token",token).send();   // we always keep the key data in headers 
+
+    // res.send("logged in Successfully")
 });
 
 
