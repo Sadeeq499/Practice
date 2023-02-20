@@ -3,9 +3,10 @@ require('dotenv/config');
 const app = express();
 const userRoute = require('./routes/user');
 const mangoose = require('mongoose');
+const cors = require('cors');
 
 
-
+app.use(cors());
 const port = process.env.PORT || 3001;
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -15,7 +16,6 @@ mangoose.set('strictQuery', false)
 mangoose.connect(`mongodb+srv://${process.env.DB_Username}:${process.env.DB_Password}@cluster0.utjak6l.mongodb.net/?retryWrites=true&w=majority`,()=>{
     console.log('connected to DB');
 })
-
 
 app.use('/user', userRoute);
 

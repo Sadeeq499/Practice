@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import Formik from './Formik/Flormiklogin';
+import Register from './components/register'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Formik />
+    <Register />
   </React.StrictMode>
 );
 
