@@ -2,12 +2,20 @@ import React from 'react'
 import './form.css'
 import { useState } from 'react'
 import axios from 'axios'
+// import Login from '../loginPage/form'
+// import Hello from  '../loginPage/hello'
+// import {BrowserRouter as Router , Route , Routes ,Link } from 'react-router-dom'
 
 function Form() {
+
+  // hooks
     const [name, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+
+
+    // functions
     const handleSubmit = (e) => {
         e.preventDefault()
         axios.post('http://localhost:3001/user/register', {
@@ -30,8 +38,10 @@ function Form() {
     //         password
     // }
     // console.log(data)
-   
-}
+      }
+
+
+
 
   return (
     <div>
@@ -84,9 +94,14 @@ function Form() {
               </div>
               <input type="submit"  defaultValue="SIGNUP" />
             </form>
-            <p>Don't have an Account? <a href="https://google.com/"> Login Now!</a></p>
+            {/* <p>Already have an account? <Link to="/test">Login now</Link></p> */}
+            {/* now create a anchoer tag when user click on login Now then redirect it to another component name test in same directory */}
+            <p>Already have an account? <a href="/test">Login now</a></p>
+       
           </div>
         </div>
+           
+  
         {/* copyright */}
         <div className="colorlibcopy-agile">
           <p>© 2018 Colorlib Signup Form. All rights reserved | Design by <a href="https://colorlib.com/">Colorlib</a></p>
